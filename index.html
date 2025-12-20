@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Fotos</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .container div {
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .container div:hover {
+            transform: scale(1.02);
+        }
+        .container img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .container p {
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #555;
+        }
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .modal img {
+            max-width: 90vw;
+            max-height: 80vh;
+            object-fit: contain;
+            border: 3px solid white;
+        }
+        .modal p {
+            margin-top: 15px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .modal .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Galeria de Fotos</h1>
+
+    <div class="container">
+        <div>
+            <img src="Yasmi.jpg" alt="Yasmim 1" onclick="openModal(this.src, 'Yasmim 1')">
+            <p>Yasmim 1</p>
+        </div>
+        <div>
+            <img src="yasmi2.jpg" alt="Yasmim 2" onclick="openModal(this.src, 'Yasmim 2')">
+            <p>Yasmim 2</p>
+        </div>
+        <div>
+            <img src="yasmi3.jpg" alt="Yasmim 3" onclick="openModal(this.src, 'Yasmim 3')">
+            <p>Yasmim 3</p>
+        </div>
+        <div>
+            <img src="yasmi4.jpg" alt="Yasmim 4" onclick="openModal(this.src, 'Yasmim 4')">
+            <p>Yasmim 4</p>
+        </div>
+        <div>
+            <img src="yasmi5.jpg" alt="Yasmim 5" onclick="openModal(this.src, 'Yasmim 5')">
+            <p>Yasmim 5</p>
+        </div>
+        <div>
+            <img src="yasmi6.jpg" alt="Yasmim 6" onclick="openModal(this.src, 'Yasmim 6')">
+            <p>Yasmim 6</p>
+        </div>
+        <div>
+            <img src="yasmi7.jpg" alt="Yasmim 7" onclick="openModal(this.src, 'Yasmim 7')">
+            <p>Yasmim 7</p>
+        </div>
+        <div>
+            <img src="yasmi8.jpg" alt="Yasmim 8" onclick="openModal(this.src, 'Yasmim 8')">
+            <p>Yasmim 8</p>
+        </div>
+        <div>
+            <img src="yasmi9.jpg" alt="Yasmim 9" onclick="openModal(this.src, 'Yasmim 9')">
+            <p>Yasmim 9</p>
+        </div>
+        <div>
+            <img src="yasmi10.jpg" alt="Yasmim 10" onclick="openModal(this.src, 'Yasmim 10')">
+            <p>Yasmim 10</p>
+        </div>
+        <div>
+            <img src="yasmi11.jpg" alt
