@@ -3,289 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Galeria Premium v3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #0f1012;
-            --card-bg: #1a1c1e;
-            --accent-color: #3498db;
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-            --glass: rgba(255, 255, 255, 0.05);
+            --bg: #050505;
+            --surface: #0f0f0f;
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #ffffff;
+            --accent-dim: #777;
+            --transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main);
-            margin: 0; 
-            padding: 40px 20px;
-            line-height: 1.6;
+            background-color: var(--bg); 
+            color: var(--accent);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        h2 { 
-            text-align: left; 
+        /* Header Estilizado */
+        header {
+            padding: 80px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        header span {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 11px;
+            color: var(--accent-dim);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        /* Seções */
+        section {
+            max-width: 1250px;
+            margin: 0 auto 100px;
+            padding: 0 25px;
+        }
+
+        .section-title {
+            font-size: 14px;
             font-weight: 600;
-            letter-spacing: -1px;
-            margin: 40px auto 20px;
-            max-width: 1100px;
-            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
+            color: var(--accent-dim);
         }
 
-        h2::after {
+        .section-title::after {
             content: "";
             height: 1px;
             flex-grow: 1;
-            background: linear-gradient(90deg, var(--glass), transparent);
+            background: linear-gradient(90deg, var(--border), transparent);
         }
 
-        .container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px; 
-            max-width: 1100px;
-            margin: 0 auto;
+        /* Grid Master */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
         }
 
-        /* Estilo dos Cards */
-        .item-card { 
-            background: var(--card-bg); 
-            padding: 0; 
-            border-radius: 16px; 
-            overflow: hidden;
+        /* Cards Elegantes */
+        .item-card {
             position: relative;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 1px solid rgba(255,255,255,0.05);
+            aspect-ratio: 4/5;
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--surface);
             cursor: pointer;
+            border: 1px solid var(--border);
+            transition: var(--transition);
         }
 
-        .item-card:hover { 
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border-color: rgba(255,255,255,0.2);
+        .item-card:hover {
+            transform: scale(0.98);
+            border-color: rgba(255,255,255,0.3);
         }
 
-        .container img, .container video { 
-            width: 100%; 
-            height: 280px; 
-            object-fit: cover; 
-            display: block;
-            transition: transform 0.6s ease;
+        .item-card img, .item-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            filter: grayscale(20%);
         }
 
-        .item-card:hover img {
-            transform: scale(1.05);
+        .item-card:hover img, .item-card:hover video {
+            transform: scale(1.1);
+            filter: grayscale(0%);
         }
 
-        /* Badge de Vídeo Profissional */
-        .video-item::before {
-            content: 'VIDEO';
+        /* Overlay do Vídeo */
+        .video-overlay {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            padding: 4px 10px;
-            border-radius: 6px;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            border-radius: 30px;
             font-size: 10px;
             font-weight: 600;
-            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .video-item::after {
-            content: '▶'; 
-            position: absolute; 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%);
-            color: white; 
-            font-size: 24px; 
-            background: var(--accent-color); 
-            width: 50px; height: 50px; 
-            display: flex; justify-content: center; align-items: center;
+        .video-overlay::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #ff3e3e;
             border-radius: 50%;
-            opacity: 0.8;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
+            animation: pulse 1.5s infinite;
         }
 
-        .item-card:hover::after {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* Modal Ultra Moderno */
+        /* Modal Cinematic */
         .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(10, 11, 13, 0.98); 
-            backdrop-filter: blur(15px);
-            display: none; z-index: 1000;
-            justify-content: center; align-items: center; 
-            overflow: hidden;
-            animation: fadeIn 0.3s ease;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            z-index: 2000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: modalIn 0.4s ease forwards;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes modalIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
 
-        #img-wrapper {
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: flex; justify-content: center; align-items: center;
-            width: 90%; height: 90%;
+        .modal-content-wrapper {
+            width: 100%;
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
         }
 
         .modal img, .modal video {
-            max-width: 100%; max-height: 100%;
-            object-fit: contain; 
-            border-radius: 8px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* Controles Minimalistas */
-        .close { 
-            position: absolute; top: 30px; right: 30px; 
-            color: var(--text-dim); font-size: 30px; 
-            cursor: pointer; z-index: 1002;
-            transition: color 0.3s;
+        /* Navegação do Modal */
+        .close-btn {
+            position: absolute; top: 40px; right: 40px;
+            cursor: pointer; padding: 10px; opacity: 0.5; transition: 0.3s;
         }
-        .close:hover { color: white; }
+        .close-btn:hover { opacity: 1; }
 
-        .prev, .next { 
-            position: absolute; top: 50%; transform: translateY(-50%); 
-            color: white; font-size: 30px; cursor: pointer; 
-            padding: 40px 20px; z-index: 1001; 
-            background: transparent;
-            transition: all 0.3s;
-            user-select: none;
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            padding: 30px; cursor: pointer; opacity: 0.3; transition: 0.3s;
+            font-size: 24px;
         }
-        .prev:hover, .next:hover { background: var(--glass); border-radius: 12px; }
-        .prev { left: 20px; } .next { right: 20px; }
+        .nav-btn:hover { opacity: 1; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .prev-btn { left: 30px; }
+        .next-btn { right: 30px; }
 
-        .zoomed { cursor: zoom-out !important; }
+        /* Zoom indicador */
+        .modal img { cursor: zoom-in; }
+        .zoomed { transform: scale(1.8); cursor: zoom-out !important; }
 
-        /* Mobile Adjustments */
+        /* Scrollbar Personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #333; }
+
         @media (max-width: 768px) {
-            body { padding: 20px 10px; }
-            .container { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
-            .container img, .container video { height: 180px; }
-            .prev, .next { display: none; } /* Navegação por swipe no mobile é melhor, mas aqui mantemos o clique na imagem */
+            header h1 { font-size: 32px; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+            .nav-btn { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <h2>Fotos</h2>
-    <div class="container" id="gallery-photos">
-        <div class="item-card"><img src="Yasmi.jpg" onclick="openModal(0)"></div>
-        <div class="item-card"><img src="yasmi2.jpg" onclick="openModal(1)"></div>
-        <div class="item-card"><img src="yasmi3.jpg" onclick="openModal(2)"></div>
-        <div class="item-card"><img src="yasmi4.jpg" onclick="openModal(3)"></div>
-        <div class="item-card"><img src="yasmi5.jpg" onclick="openModal(4)"></div>
-        <div class="item-card"><img src="yasmi6.jpg" onclick="openModal(5)"></div>
-        <div class="item-card"><img src="yasmi7.jpg" onclick="openModal(6)"></div>
-        <div class="item-card"><img src="yasmi8.jpg" onclick="openModal(7)"></div>
-        <div class="item-card"><img src="yasmi9.jpg" onclick="openModal(8)"></div>
-        <div class="item-card"><img src="yasmi10.jpg" onclick="openModal(9)"></div>
-        <div class="item-card"><img src="yasmi11.jpg" onclick="openModal(10)"></div>
-        <div class="item-card"><img src="yasmi12.jpg" onclick="openModal(11)"></div>
-        <div class="item-card"><img src="yasmi13.jpg" onclick="openModal(12)"></div>
-        <div class="item-card"><img src="yasmi14.jpg" onclick="openModal(13)"></div>
-        <div class="item-card"><img src="yasmi15.jpg" onclick="openModal(14)"></div>
-        <div class="item-card"><img src="yasmi17.jpg" onclick="openModal(15)"></div>
-    </div>
+    <header>
+        <h1>Galeria da Yas</h1>
+    </header>
 
-    <h2>Vídeos</h2>
-    <div class="container" id="gallery-videos">
-        <div class="item-card video-item"><video src="video1.mp4" onclick="openModal(16)"></video></div>
-        <div class="item-card video-item"><video src="video2.mp4" onclick="openModal(17)"></video></div>
-        <div class="item-card video-item"><video src="video3.mp4" onclick="openModal(18)"></video></div>
-        <div class="item-card video-item"><video src="video4.mp4" onclick="openModal(19)"></video></div>
-    </div>
-
-    <div id="myModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <span class="prev" onclick="changePhoto(-1)">&#10094;</span>
-        <div id="img-wrapper">
-            <img id="modalImg" src="" onclick="toggleZoom(event)" style="display: none;">
-            <video id="modalVideo" src="" controls style="display: none;"></video>
+    <section>
+        <div class="section-title">Fotos</div>
+        <div class="gallery-grid" id="grid-photos">
+            <div class="item-card"><img src="Yasmi.jpg" onclick="openModal(0)"></div>
+            <div class="item-card"><img src="yasmi2.jpg" onclick="openModal(1)"></div>
+            <div class="item-card"><img src="yasmi3.jpg" onclick="openModal(2)"></div>
+            <div class="item-card"><img src="yasmi4.jpg" onclick="openModal(3)"></div>
+            <div class="item-card"><img src="yasmi5.jpg" onclick="openModal(4)"></div>
+            <div class="item-card"><img src="yasmi6.jpg" onclick="openModal(5)"></div>
+            <div class="item-card"><img src="yasmi7.jpg" onclick="openModal(6)"></div>
+            <div class="item-card"><img src="yasmi8.jpg" onclick="openModal(7)"></div>
+            <div class="item-card"><img src="yasmi9.jpg" onclick="openModal(8)"></div>
+            <div class="item-card"><img src="yasmi10.jpg" onclick="openModal(9)"></div>
+            <div class="item-card"><img src="yasmi11.jpg" onclick="openModal(10)"></div>
+            <div class="item-card"><img src="yasmi12.jpg" onclick="openModal(11)"></div>
+            <div class="item-card"><img src="yasmi13.jpg" onclick="openModal(12)"></div>
+            <div class="item-card"><img src="yasmi14.jpg" onclick="openModal(13)"></div>
+            <div class="item-card"><img src="yasmi15.jpg" onclick="openModal(14)"></div>
+            <div class="item-card"><img src="yasmi17.jpg" onclick="openModal(15)"></div>
         </div>
-        <span class="next" onclick="changePhoto(1)">&#10095;</span>
+    </section>
+
+    <section>
+        <div class="section-title">Vídeo</div>
+        <div class="gallery-grid" id="grid-videos">
+            <div class="item-card" onclick="openModal(16)">
+                <video src="video1.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="item-card" onclick="openModal(17)">
+                <video src="video2.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="item-card" onclick="openModal(18)">
+                <video src="video3.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="item-card" onclick="openModal(19)">
+                <video src="video4.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
+                <div class="video-overlay"></div>
+            </div>
+        </div>
+    </section>
+
+    <div id="mainModal" class="modal">
+        <div class="close-btn" onclick="closeModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </div>
+        
+        <div class="nav-btn prev-btn" onclick="changeItem(-1)">&#10094;</div>
+        
+        <div class="modal-content-wrapper" id="modal-wrapper">
+            <img id="mImg" src="" onclick="toggleZoom(event)" style="display: none;">
+            <video id="mVideo" src="" controls style="display: none;"></video>
+        </div>
+        
+        <div class="nav-btn next-btn" onclick="changeItem(1)">&#10095;</div>
     </div>
 
     <script>
         let currentIdx = 0;
         let isZoomed = false;
         
-        const galleryItems = Array.from(document.querySelectorAll('.container img, .container video'));
-        const modal = document.getElementById("myModal");
-        const modalImg = document.getElementById("modalImg");
-        const modalVideo = document.getElementById("modalVideo");
-        const wrapper = document.getElementById("img-wrapper");
+        // Coleta todos os recursos
+        const items = Array.from(document.querySelectorAll('.gallery-grid img, .gallery-grid video'));
+        const modal = document.getElementById("mainModal");
+        const mImg = document.getElementById("mImg");
+        const mVideo = document.getElementById("mVideo");
+        const wrapper = document.getElementById("modal-wrapper");
 
         function openModal(index) {
             currentIdx = index;
             modal.style.display = "flex";
-            document.body.style.overflow = "hidden"; // Trava o scroll do fundo
-            updateModalContent();
+            document.body.style.overflow = "hidden";
+            updateContent();
         }
 
         function closeModal() {
             modal.style.display = "none";
             document.body.style.overflow = "auto";
-            modalVideo.pause();
+            mVideo.pause();
             resetZoom();
         }
 
-        function updateModalContent() {
-            const item = galleryItems[currentIdx];
+        function updateContent() {
+            const currentItem = items[currentIdx];
             resetZoom();
 
-            if (item.tagName === "IMG") {
-                modalImg.src = item.src;
-                modalImg.style.display = "block";
-                modalVideo.style.display = "none";
-                modalVideo.pause();
+            if (currentItem.tagName === "IMG") {
+                mImg.src = currentItem.src;
+                mImg.style.display = "block";
+                mVideo.style.display = "none";
+                mVideo.pause();
             } else {
-                modalVideo.src = item.src;
-                modalVideo.style.display = "block";
-                modalImg.style.display = "none";
-                modalVideo.play();
+                mVideo.src = currentItem.src;
+                mVideo.style.display = "block";
+                mImg.style.display = "none";
+                mVideo.play();
             }
         }
 
-        function changePhoto(step) {
-            currentIdx = (currentIdx + step + galleryItems.length) % galleryItems.length;
-            updateModalContent();
+        function changeItem(step) {
+            currentIdx = (currentIdx + step + items.length) % items.length;
+            updateContent();
         }
 
         function toggleZoom(e) {
-            if (galleryItems[currentIdx].tagName === "VIDEO") return;
+            if (items[currentIdx].tagName === "VIDEO") return;
             isZoomed = !isZoomed;
-            wrapper.style.transform = isZoomed ? "scale(2)" : "scale(1)";
-            modalImg.classList.toggle("zoomed", isZoomed);
+            mImg.classList.toggle("zoomed", isZoomed);
         }
 
         function resetZoom() {
             isZoomed = false;
-            wrapper.style.transform = "scale(1)";
-            modalImg.classList.remove("zoomed");
+            mImg.classList.remove("zoomed");
         }
 
+        // Atalhos teclado
         document.addEventListener('keydown', (e) => {
             if (modal.style.display === "flex") {
-                if (e.key === "ArrowLeft") changePhoto(-1);
-                if (e.key === "ArrowRight") changePhoto(1);
+                if (e.key === "ArrowLeft") changeItem(-1);
+                if (e.key === "ArrowRight") changeItem(1);
                 if (e.key === "Escape") closeModal();
             }
         });
 
-        modal.onclick = function(e) {
-            if (e.target === modal || e.target === wrapper) closeModal();
-        }
+        // Clique fora para fechar
+        modal.onclick = (e) => { if(e.target === modal || e.target === wrapper) closeModal(); }
     </script>
 </body>
 </html>
