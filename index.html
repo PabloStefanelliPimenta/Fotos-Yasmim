@@ -3,167 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Galeria da Yas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="Galeria Visual Exclusiva">
+    <title>Galeria da Yas | Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #050505;
-            --surface: #0f0f0f;
-            --border: rgba(255, 255, 255, 0.08);
-            --accent: #ffffff;
-            --accent-dim: #777;
-            --transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            /* Paleta de Cores "Dark Luxury" */
+            --bg-deep: #050505;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #1a1a1a, #050505 60%);
+            
+            --glass-surface: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #999999;
+            
+            /* Animações Físicas */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body { 
-            background-color: var(--bg); 
-            color: var(--accent);
+            background: var(--bg-deep);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            padding-bottom: 50px;
+            min-height: 100vh;
         }
 
+        /* Scrollbar Premium */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+        /* HEADER CINEMATOGRÁFICO */
         header {
-            padding: 80px 20px 40px;
+            padding: 100px 20px 60px;
             text-align: center;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
         }
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 42px;
+            font-size: clamp(3rem, 6vw, 4.5rem);
             font-weight: 700;
-            letter-spacing: -1px;
-            animation: fadeInDown 1s ease forwards;
+            letter-spacing: -0.03em;
+            background: linear-gradient(180deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: textReveal 1.2s var(--ease-out-expo) forwards;
         }
 
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0;
+            animation: textReveal 1.2s var(--ease-out-expo) 0.2s forwards;
+        }
+
+        /* SEÇÕES & LAYOUT */
         section {
-            max-width: 1200px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
+            max-width: 1280px;
+            margin: 0 auto 80px;
+            padding: 0 24px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
         .section-title {
-            font-size: 12px;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: var(--accent-dim);
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            white-space: nowrap;
         }
 
-        .section-title::after {
-            content: "";
+        .section-line {
             height: 1px;
-            flex-grow: 1;
-            background: linear-gradient(90deg, var(--border), transparent);
+            width: 100%;
+            background: linear-gradient(90deg, var(--glass-border), transparent);
         }
 
-        /* GRID: 4 COLUNAS */
+        /* GRID (Mantendo a estrutura solicitada) */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            /* Lógica: Mínimo de 210px, preenchendo o espaço disponível */
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); 
             gap: 20px;
         }
 
-        .item-card {
+        /* CARD DESIGN PROFISSIONAL */
+        .media-card {
             position: relative;
-            height: 280px; 
-            border-radius: 12px;
+            height: 280px; /* Tamanho fixo solicitado */
+            border-radius: 4px; /* Bordas levemente menos arredondadas para ar profissional */
+            background: var(--glass-surface);
+            border: 1px solid var(--glass-border);
             overflow: hidden;
-            background: var(--surface);
             cursor: pointer;
-            border: 1px solid var(--border);
-            transition: var(--transition);
+            transition: all 0.4s var(--ease-out-expo);
+            
+            /* Estado inicial para animação */
             opacity: 0;
-            transform: translateY(20px);
-            animation: reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transform: translateY(30px);
         }
 
-        .item-card:nth-child(n) { animation-delay: 0.1s; }
-
-        @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .item-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        /* Hover Effect: Glow & Lift */
+        .media-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--glass-highlight);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.05);
+            z-index: 2;
         }
 
-        .item-card img, .item-card video {
-            width: 100%; height: 100%; object-fit: cover; transition: var(--transition);
+        .media-card img, .media-card video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s ease;
+            filter: brightness(0.9) contrast(1.1); /* Tratamento de imagem sutil */
         }
 
-        .video-overlay {
-            position: absolute; top: 15px; right: 15px; background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px); width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(255,255,255,0.15);
+        .media-card:hover img, .media-card:hover video {
+            transform: scale(1.05);
+            filter: brightness(1) contrast(1);
         }
 
-        .video-overlay::after { content: '▶'; color: white; font-size: 12px; margin-left: 2px; }
-
-        /* MODAL */
-        .modal {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.98);
-            backdrop-filter: blur(25px);
-            display: none;
-            z-index: 2000;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* Efeito de Loading Elegante */
+        .media-card.loading {
+            background: #0f0f0f;
+        }
+        .media-card.loading::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        .media-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .modal-content-wrapper {
-            width: 100%; height: 80vh;
-            display: flex; justify-content: center; align-items: center;
-            touch-action: none; /* Necessário para o swipe */
-        }
-
-        .modal img, .modal video {
-            max-width: 90%; max-height: 90%; object-fit: contain;
-            border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .close-btn {
-            position: absolute; top: 30px; right: 30px;
-            cursor: pointer; padding: 10px; color: white; z-index: 2100;
-        }
-
-        /* BOTÕES DE NAVEGAÇÃO AJUSTADOS */
-        .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            padding: 20px; cursor: pointer; color: white;
-            font-size: 35px; opacity: 0.3; transition: 0.3s;
-            user-select: none; z-index: 2100;
-            background: rgba(255,255,255,0.02);
+        /* Ícone de Vídeo Premium */
+        .video-badge {
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 32px; height: 32px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s;
         }
-        .nav-btn:hover { opacity: 1; background: rgba(255,255,255,0.1); }
-        .prev-btn { left: 10px; }
-        .next-btn { right: 10px; }
+        
+        .video-badge svg { width: 10px; height: 10px; fill: white; margin-left: 2px; }
+        
+        .media-card:hover .video-badge {
+            background: rgba(255,255,255,0.95);
+        }
+        .media-card:hover .video-badge svg { fill: black; }
 
-        .modal img { cursor: zoom-in; transition: transform 0.4s ease; }
-        .zoomed { transform: scale(1.6); cursor: zoom-out !important; }
+        /* LIGHTBOX / MODAL */
+        .lightbox {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85); /* Fundo escuro */
+            backdrop-filter: blur(20px); /* Blur pesado estilo iOS */
+            z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        
+        .lightbox.active { opacity: 1; pointer-events: all; }
+
+        .lightbox-wrapper {
+            position: relative;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .lightbox-media {
+            max-width: 90vw; max-height: 85vh;
+            border-radius: 4px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            opacity: 0; transform: scale(0.95);
+            transition: opacity 0.4s ease, transform 0.4s var(--ease-out-expo);
+        }
+        
+        .lightbox-media.show { opacity: 1; transform: scale(1); }
+        .lightbox-media.zoomed { transform: scale(1.8); cursor: grab; }
+
+        /* CONTROLES DE NAVEGAÇÃO CUSTOMIZADOS */
+        .nav-btn {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            width: 56px; height: 56px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2100;
+            color: white;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: black;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .btn-prev { left: 40px; }
+        .btn-next { right: 40px; }
+        .btn-close { 
+            top: 30px; right: 30px; 
+            transform: none;
+            width: 44px; height: 44px;
+            background: transparent; border-color: transparent;
+        }
+        .btn-close:hover { background: rgba(255,255,255,0.1); color: white; transform: rotate(90deg); }
+
+        /* KEYFRAMES */
+        @keyframes textReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
 
         /* RESPONSIVIDADE */
-        @media (max-width: 1024px) {
-            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-
         @media (max-width: 768px) {
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .item-card { height: 200px; }
-            header h1 { font-size: 28px; }
-            .nav-btn { opacity: 0.6; padding: 10px; font-size: 25px; } /* Visíveis mas menores no celular */
+            header { padding-top: 60px; }
+            header h1 { font-size: 2.5rem; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .media-card { height: 200px; /* Ajuste proporcional para mobile */ }
+            
+            .nav-btn { width: 44px; height: 44px; background: rgba(0,0,0,0.5); border: none; }
+            .btn-prev { left: 10px; }
+            .btn-next { right: 10px; }
+            .btn-close { top: 20px; right: 20px; }
         }
     </style>
 </head>
@@ -171,162 +280,228 @@
 
     <header>
         <h1>Galeria da Yas</h1>
+        <p>Coleção Visual</p>
     </header>
 
-    <section>
-        <div class="section-title">Fotos</div>
-        <div class="gallery-grid">
-            <div class="item-card"><img src="Yasmi.jpg" onclick="openModal(0)"></div>
-            <div class="item-card"><img src="yasmi2.jpg" onclick="openModal(1)"></div>
-            <div class="item-card"><img src="yasmi3.jpg" onclick="openModal(2)"></div>
-            <div class="item-card"><img src="yasmi4.jpg" onclick="openModal(3)"></div>
-            <div class="item-card"><img src="yasmi5.jpg" onclick="openModal(4)"></div>
-            <div class="item-card"><img src="yasmi6.jpg" onclick="openModal(5)"></div>
-            <div class="item-card"><img src="yasmi7.jpg" onclick="openModal(6)"></div>
-            <div class="item-card"><img src="yasmi8.jpg" onclick="openModal(7)"></div>
-            <div class="item-card"><img src="yasmi9.jpg" onclick="openModal(8)"></div>
-            <div class="item-card"><img src="yasmi10.jpg" onclick="openModal(9)"></div>
-            <div class="item-card"><img src="yasmi11.jpg" onclick="openModal(10)"></div>
-            <div class="item-card"><img src="yasmi12.jpg" onclick="openModal(11)"></div>
-            <div class="item-card"><img src="yasmi13.jpg" onclick="openModal(12)"></div>
-            <div class="item-card"><img src="yasmi14.jpg" onclick="openModal(13)"></div>
-            <div class="item-card"><img src="yasmi15.jpg" onclick="openModal(14)"></div>
-            <div class="item-card"><img src="yasmi17.jpg" onclick="openModal(15)"></div>
-        </div>
-    </section>
+    <main>
+        <section>
+            <div class="section-header">
+                <span class="section-title">Fotos</span>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="media-card loading" data-type="image" data-src="Yasmi.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi2.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi3.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi4.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi5.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi6.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi7.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi8.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi9.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi10.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi11.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi12.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi13.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi14.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi15.jpg"><img src="" alt="" loading="lazy"></div>
+                <div class="media-card loading" data-type="image" data-src="yasmi17.jpg"><img src="" alt="" loading="lazy"></div>
+            </div>
+        </section>
 
-    <section>
-        <div class="section-title">Vídeos</div>
-        <div class="gallery-grid">
-            <div class="item-card" onclick="openModal(16)">
-                <video src="video1.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                <div class="video-overlay"></div>
+        <section>
+            <div class="section-header">
+                <span class="section-title">Videos</span>
+                <div class="section-line"></div>
             </div>
-            <div class="item-card" onclick="openModal(17)">
-                <video src="video2.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                <div class="video-overlay"></div>
+            
+            <div class="gallery-grid">
+                <div class="media-card loading" data-type="video" data-src="video1.mp4">
+                    <video src="" muted loop playsinline></video>
+                    <div class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
+                <div class="media-card loading" data-type="video" data-src="video2.mp4">
+                    <video src="" muted loop playsinline></video>
+                    <div class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
+                <div class="media-card loading" data-type="video" data-src="video3.mp4">
+                    <video src="" muted loop playsinline></video>
+                    <div class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
+                <div class="media-card loading" data-type="video" data-src="video4.mp4">
+                    <video src="" muted loop playsinline></video>
+                    <div class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
+                <div class="media-card loading" data-type="video" data-src="video5.mp4">
+                    <video src="" muted loop playsinline></video>
+                    <div class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
+                <div class="media-card loading" data-type="video" data-src="video6.mp4">
+                    <video src="" muted loop playsinline></video>
+                    <div class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
+                <div class="media-card loading" data-type="video" data-src="video7.mp4">
+                    <video src="" muted loop playsinline></video>
+                    <div class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
             </div>
-            <div class="item-card" onclick="openModal(18)">
-                <video src="video3.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                <div class="video-overlay"></div>
-            </div>
-            <div class="item-card" onclick="openModal(19)">
-                <video src="video4.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                <div class="video-overlay"></div>
-            </div>
-            <div class="item-card" onclick="openModal(20)">
-                <video src="video5.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                <div class="video-overlay"></div>
-            </div>
-            <div class="item-card" onclick="openModal(21)">
-                <video src="video6.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                <div class="video-overlay"></div>
-            </div>
-            <div class="item-card" onclick="openModal(22)">
-                <video src="video7.mp4" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                <div class="video-overlay"></div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <div id="mainModal" class="modal">
-        <div class="close-btn" onclick="closeModal()">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </div>
-        <div class="nav-btn prev-btn" onclick="changeItem(-1)">&#10094;</div>
-        <div class="modal-content-wrapper" id="modal-wrapper">
-            <img id="mImg" src="" onclick="toggleZoom(event)" style="display: none;">
-            <video id="mVideo" src="" controls style="display: none;"></video>
-        </div>
-        <div class="nav-btn next-btn" onclick="changeItem(1)">&#10095;</div>
+    <div id="lightbox" class="lightbox">
+        <button class="nav-btn btn-close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        
+        <button class="nav-btn btn-prev">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        
+        <div class="lightbox-wrapper">
+            </div>
+        
+        <button class="nav-btn btn-next">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
     </div>
 
     <script>
-        let currentIdx = 0;
-        let isZoomed = false;
-        const items = Array.from(document.querySelectorAll('.gallery-grid img, .gallery-grid video'));
-        const modal = document.getElementById("mainModal");
-        const mImg = document.getElementById("mImg");
-        const mVideo = document.getElementById("mVideo");
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.media-card');
+            const lightbox = document.getElementById('lightbox');
+            const wrapper = lightbox.querySelector('.lightbox-wrapper');
+            const closeBtn = lightbox.querySelector('.btn-close');
+            const prevBtn = lightbox.querySelector('.btn-prev');
+            const nextBtn = lightbox.querySelector('.btn-next');
+            
+            let currentIndex = 0;
+            let isZoomed = false;
+            let touchStartX = 0;
 
-        // Variáveis para o Swipe (deslizar)
-        let touchstartX = 0;
-        let touchendX = 0;
+            // 1. LAZY LOADING AVANÇADO COM ANIMAÇÃO DE ENTRADA
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach((entry, i) => {
+                    if (entry.isIntersecting) {
+                        const card = entry.target;
+                        const src = card.getAttribute('data-src');
+                        const media = card.querySelector('img, video');
+                        
+                        // Pequeno delay baseado no índice para efeito cascata
+                        setTimeout(() => {
+                            if (media) {
+                                media.src = src;
+                                const reveal = () => {
+                                    card.classList.remove('loading');
+                                    media.classList.add('loaded');
+                                    card.classList.add('visible');
+                                };
 
-        function openModal(index) {
-            currentIdx = index;
-            modal.style.display = "flex";
-            document.body.style.overflow = "hidden";
-            updateContent();
-        }
+                                if (media.tagName === 'VIDEO') {
+                                    media.onloadeddata = reveal;
+                                    card.addEventListener('mouseenter', () => media.play().catch(() => {}));
+                                    card.addEventListener('mouseleave', () => { media.pause(); media.currentTime = 0; });
+                                } else {
+                                    media.onload = reveal;
+                                }
+                            }
+                        }, i * 50); // Delay escalonado
+                        
+                        obs.unobserve(card);
+                    }
+                });
+            }, { rootMargin: '50px', threshold: 0.1 });
 
-        function closeModal() {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-            mVideo.pause();
-            resetZoom();
-        }
+            cards.forEach(card => observer.observe(card));
 
-        function updateContent() {
-            const currentItem = items[currentIdx];
-            resetZoom();
-            if (currentItem.tagName === "IMG") {
-                mImg.src = currentItem.src;
-                mImg.style.display = "block";
-                mVideo.style.display = "none";
-                mVideo.pause();
-            } else {
-                mVideo.src = currentItem.src;
-                mVideo.style.display = "block";
-                mImg.style.display = "none";
-                mVideo.play();
+            // 2. LÓGICA DO LIGHTBOX
+            cards.forEach((card, index) => {
+                card.addEventListener('click', () => openLightbox(index));
+            });
+
+            function openLightbox(index) {
+                currentIndex = index;
+                renderContent();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
-        }
 
-        function changeItem(step) {
-            currentIdx = (currentIdx + step + items.length) % items.length;
-            updateContent();
-        }
-
-        function toggleZoom(e) {
-            if (items[currentIdx].tagName === "VIDEO") return;
-            isZoomed = !isZoomed;
-            mImg.classList.toggle("zoomed", isZoomed);
-        }
-
-        function resetZoom() {
-            isZoomed = false;
-            mImg.classList.remove("zoomed");
-        }
-
-        // Navegação por teclado
-        document.addEventListener('keydown', (e) => {
-            if (modal.style.display === "flex") {
-                if (e.key === "ArrowLeft") changeItem(-1);
-                if (e.key === "ArrowRight") changeItem(1);
-                if (e.key === "Escape") closeModal();
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+                setTimeout(() => { wrapper.innerHTML = ''; }, 300); // Limpa após animação
+                isZoomed = false;
             }
+
+            function renderContent() {
+                const card = cards[currentIndex];
+                const type = card.getAttribute('data-type');
+                const src = card.getAttribute('data-src');
+                
+                // Limpa conteúdo anterior
+                wrapper.innerHTML = '';
+                isZoomed = false;
+
+                let el;
+                if (type === 'image') {
+                    el = document.createElement('img');
+                    el.src = src;
+                    el.onclick = (e) => { e.stopPropagation(); toggleZoom(el); };
+                } else {
+                    el = document.createElement('video');
+                    el.src = src;
+                    el.controls = true;
+                    el.autoplay = true;
+                }
+                
+                el.classList.add('lightbox-media');
+                wrapper.appendChild(el);
+                
+                // Força reflow para animação
+                requestAnimationFrame(() => el.classList.add('show'));
+            }
+
+            function toggleZoom(el) {
+                isZoomed = !isZoomed;
+                el.classList.toggle('zoomed', isZoomed);
+            }
+
+            function navigate(step) {
+                const currentMedia = wrapper.querySelector('.lightbox-media');
+                if(currentMedia) currentMedia.classList.remove('show');
+                
+                setTimeout(() => {
+                    currentIndex = (currentIndex + step + cards.length) % cards.length;
+                    renderContent();
+                }, 200);
+            }
+
+            // EVENT LISTENERS
+            closeBtn.onclick = closeLightbox;
+            prevBtn.onclick = (e) => { e.stopPropagation(); navigate(-1); };
+            nextBtn.onclick = (e) => { e.stopPropagation(); navigate(1); };
+            
+            lightbox.onclick = (e) => {
+                if (e.target === lightbox || e.target === wrapper) closeLightbox();
+            };
+
+            // TECLADO
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigate(-1);
+                if (e.key === 'ArrowRight') navigate(1);
+            });
+
+            // SWIPE MOBILE
+            lightbox.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, {passive: true});
+            lightbox.addEventListener('touchend', e => {
+                if (isZoomed) return;
+                const touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX < touchStartX - 50) navigate(1);
+                if (touchEndX > touchStartX + 50) navigate(-1);
+            }, {passive: true});
         });
-
-        // Suporte para deslizar o dedo (Swipe) no Celular
-        modal.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        });
-
-        modal.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleGesture();
-        });
-
-        function handleGesture() {
-            if (isZoomed) return; // Desativa swipe se estiver com zoom
-            if (touchendX < touchstartX - 50) changeItem(1); // Deslizou para esquerda -> Próxima
-            if (touchendX > touchstartX + 50) changeItem(-1); // Deslizou para direita -> Anterior
-        }
-
-        modal.onclick = (e) => { 
-            if(e.target === modal || e.target.id === "modal-wrapper") closeModal(); 
-        }
     </script>
 </body>
 </html>
